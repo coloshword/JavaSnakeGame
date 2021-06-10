@@ -52,26 +52,36 @@ public class GamePanel extends JPanel implements ActionListener{
     }
 
     public void draw(Graphics g) {
-        for(int i = 0; i<screenHeight/ unitSize; i++) {
-            g.setColor(Color.darkGray);
-            g.drawLine(i * unitSize, 0, i*unitSize, screenHeight);
-            g.drawLine(0, i * unitSize, screenWidth, i * unitSize);
-        }
-        // now draw apple
-        g.setColor(Color.red);
-        g.fillOval(appleXcor, appleYcor, unitSize, unitSize);
+        // only draw if running
+        if(running) {
+            for(int i = 0; i<screenHeight/ unitSize; i++) {
+                g.setColor(Color.darkGray);
+                g.drawLine(i * unitSize, 0, i*unitSize, screenHeight);
+                g.drawLine(0, i * unitSize, screenWidth, i * unitSize);
+            }
+            // now draw apple
+            g.setColor(Color.red);
+            g.fillOval(appleXcor, appleYcor, unitSize, unitSize);
 
-        // now draw the snake 
-        for(int i = 0; i < numBody; i++) {
-            // this is the head of snake 
-            if(i == 0) {
-                g.setColor(Color.green);
-                g.fillRect(x[i], y[i], unitSize, unitSize);
+            // now draw the snake 
+            for(int i = 0; i < numBody; i++) {
+                // this is the head of snake 
+                if(i == 0) {
+                    g.setColor(Color.green);
+                    g.fillRect(x[i], y[i], unitSize, unitSize);
+                }
+                else {
+                    g.setColor(new Color(45, 180, 0));
+                    g.fillRect(x[i], y[i], unitSize, unitSize);
+                }
             }
-            else {
-                g.setColor(new Color(45, 180, 0));
-                g.fillRect(x[i], y[i], unitSize, unitSize);
-            }
+            g.setColor(Color.red);
+        g.setFont(new Font("Ink Free", Font.BOLD, 40));
+        FontMetrics metrics = getFontMetrics(g.getFont());
+        g.drawString("Score: " + applesEaten,(screenWidth - metrics.stringWidth("Score: " + applesEaten)) / 2, g.getFont().getSize());
+        }
+        else {
+            gameOver(g);
         }
     }
 
@@ -114,7 +124,7 @@ public class GamePanel extends JPanel implements ActionListener{
             // then you have eaten an apple
             applesEaten++;
             // and the snake gets bigger
-            applesEaten++;
+            numBody++;
             // respawn an apple 
             newApple();
         } 
@@ -152,7 +162,11 @@ public class GamePanel extends JPanel implements ActionListener{
     }
 
     public void gameOver(Graphics g) {
-
+        // make Game Over text
+        g.setColor(Color.red);
+        g.setFont(new Font("Ink Free", Font.BOLD, 70));
+        FontMetrics metrics = getFontMetrics(g.getFont());
+        g.drawString("Game Over",(screenWidth - metrics.stringWidth("Game Over")) / 2, screenHeight / 2);
     }
 
     @Override
