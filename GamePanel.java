@@ -157,7 +157,12 @@ public class GamePanel extends JPanel implements ActionListener{
         }
 
         if(!running) {
+            repaint();
             timer.stop();
+            JButton button = new JButton();
+            button.setBackground(Color.red);
+            button.setOpaque(true);
+            button.setBorderPainted(false);
         }
     }
 
